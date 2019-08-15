@@ -7,9 +7,9 @@ export default {
   darker: '#333',
   black: '#000',
 
-  primary: '#802740',
-  primaryDark: '#4f0822', // Color('#802740').darken(0.1),
-  secundary: '#7d0a31',
+  primary: '#4d3569',
+  primaryDark: '#231331',
+  secundary: '#4e4ea5',
   success: '#9DCA83',
   warn: '#936C3F',
   danger: '#E37A7A',
