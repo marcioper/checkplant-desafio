@@ -46,7 +46,7 @@ export default function Main({navigation}) {
 
   const dispatch = useDispatch();
 
-  console.disableYellowBox = true;
+  // console.disableYellowBox = true;
 
   function getCurrentPositionInitial(coords) {
     const {latitude: lat, longitude: long} = coords;
