@@ -1,20 +1,50 @@
 import {StyleSheet} from 'react-native';
-import {colors} from '~/styles';
+import {colors, metrics} from '~/styles';
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'center',
     flex: 1,
-    paddingHorizontal: 20,
+  },
+
+  containerForm: {
+    flex: 1,
+    marginHorizontal: metrics.baseMargin + 5,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     backgroundColor: colors.lighter,
   },
-  welcome: {
-    color: colors.dark,
-    fontSize: 22,
+
+  title: {
+    fontSize: 25,
+    color: colors.primary,
+    fontWeight: '500',
+    letterSpacing: 1,
+    marginTop: 5,
+  },
+
+  textInput: {
+    height: 200,
+    fontSize: 16,
+    color: colors.black,
+    marginTop: metrics.baseMargin,
+    marginBottom: metrics.baseMargin,
+  },
+
+  button: {
+    height: 50,
+    width: metrics.screenWidth - 30,
+    backgroundColor: colors.secundary,
+    borderRadius: metrics.baseRadius,
+    paddingHorizontal: metrics.basePadding,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: metrics.baseMargin,
+  },
+
+  buttonText: {
+    color: colors.lighter,
     fontWeight: 'bold',
-    textAlign: 'center',
+    fontSize: 14,
   },
 });
 

@@ -19,7 +19,7 @@ const AppStack = createStackNavigator({
   AddNote: {
     screen: AddNote,
     navigationOptions: {
-      title: 'Add note',
+      title: 'Anotação',
       headerStyle: {
         backgroundColor: colors.primary,
       },

@@ -20,6 +20,4 @@ export default {
   darkReallyTransparent: 'rgba(0, 0, 0, 0.1)',
 
   badge: '#ff8600',
-  userContainer: '#f3f3f3',
-  userPhotoBackground: '#333',
 };

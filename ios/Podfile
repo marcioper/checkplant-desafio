@@ -27,6 +27,11 @@ target 'checkplantdesafio' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
+  pod 'react-native-mapbox-gl', :path => '../node_modules/@mapbox/react-native-mapbox-gl'
+
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+
   target 'checkplantdesafioTests' do
     inherit! :search_paths
     # Pods for testing

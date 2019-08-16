@@ -857,6 +857,14 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
 
+"@mapbox/react-native-mapbox-gl@^6.1.3":
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/@mapbox/react-native-mapbox-gl/-/react-native-mapbox-gl-6.1.3.tgz#b1105b86a54e6a9994870b23b177561f18e632f8"
+  integrity sha512-nOqpMzS9YD8uyOaUxcVDnVcljA5tfDueiBSydjIts8hl5vKM4CYbslH9R7+nT4QT6gVLIDYHBcRuXwIHqYP5tg==
+  dependencies:
+    "@turf/helpers" "4.6.0"
+    underscore "^1.8.3"
+
 "@react-native-community/async-storage@^1.6.1":
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.6.1.tgz#19be07fc1d65c77bdeb20f46108ba12076aad1c5"
@@ -950,6 +958,11 @@
     eslint-plugin-react-native "3.6.0"
     prettier "1.16.4"
 
+"@react-native-community/geolocation@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/geolocation/-/geolocation-1.4.2.tgz#7228c6d37c2f55017af9c49c2b9ad586d9bcb9f8"
+  integrity sha512-9x9dHDeUXnh2larA4zTT3y/tXPmRnysh5o9fsNbGcnUKPj1BUCIHnGGPxEIDnwP1DNIMP2DN9DmuMHImtTbX6A==
+
 "@react-navigation/core@~3.4.1":
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.4.2.tgz#bec563e94fde40fbab3730cdc97f22afbb2a1498"
@@ -1012,6 +1025,11 @@
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@redux-saga/types/-/types-1.0.2.tgz#1d94f02800b094753f9271c206a26c2a06ca14ee"
   integrity sha512-8/qcMh15507AnXJ3lBeuhsdFwnWQqnp68EpUuHlYPixJ5vjVmls7/Jq48cnUlrZI8Jd9U1jkhfCl0gaT5KMgVw==
+
+"@turf/helpers@4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-4.6.0.tgz#12398733b8ae28420df6166fa44c7ee8ffd6414c"
+  integrity sha1-EjmHM7iuKEIN9hZvpEx+6P/WQUw=
 
 "@types/babel__core@^7.1.0":
   version "7.1.2"
@@ -5637,10 +5655,24 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-animatable@^1.3.1:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.2.tgz#4783ee1a73dc98815aef234ce6b819f80bfe7d80"
+  integrity sha512-rmah3KQ63ft8DxkzFUwJSuZeq+oSYwldoGF4DTOR5WM2WR5wiWLgBAtrAHlI3Di3by323uOR21s+MlqPcHz2Kw==
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-floating-action@^1.18.0:
   version "1.18.0"
   resolved "https://registry.yarnpkg.com/react-native-floating-action/-/react-native-floating-action-1.18.0.tgz#9c6c84bc95ab78e9c4680fe90ceef675136554e7"
   integrity sha512-xaWGl7DoLShh2w/joEtjyX1W8RjbefnkCvvW6Qo00xDMWVmrDO11ZsXMo7+I+ThK7Ydewf/B8BqWBy3H5A2sfA==
+
+react-native-geolocation-service@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-geolocation-service/-/react-native-geolocation-service-3.0.0.tgz#9cf822760885a273e712289b00a9c8361734062a"
+  integrity sha512-VU4tJYdHo6fNuMbDd1yBiv1VeD1gdX5RmZYlyRMvR9CiIJSQBzRobKBAesLw+9+5/rFBlyajgWsocs7/UavSFg==
+  dependencies:
+    "@react-native-community/geolocation" "^1.4.2"
 
 react-native-gesture-handler@^1.3.0:
   version "1.3.0"
@@ -5650,6 +5682,19 @@ react-native-gesture-handler@^1.3.0:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.2"
     prop-types "^15.5.10"
+
+react-native-maps@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.25.0.tgz#81bc51eb50e33811a9e1c345cc48869413ead67d"
+  integrity sha512-PFJuW1pt+HnnnN0m0OGk29RSvICFVkK/DScX6cUk0SuCSN2DAHx0y6y57lZyYXcYqU4J4usNpfxgp/ccjASDiw==
+
+react-native-modal@^11.3.1:
+  version "11.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-11.3.1.tgz#9f67728b36fdc299f97d3da1d131190a0337b89b"
+  integrity sha512-3rRuXwvObknVijVNS8iamjMXWLjlb9xK90o+WtEcJ3C7HKuR2SOH578SoltIC6ZmVjO3vZwOApGVdSfR3LtPQg==
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-animatable "^1.3.1"
 
 react-native-safe-area-view@^0.14.1:
   version "0.14.7"
@@ -6906,6 +6951,11 @@ ultron@~1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.1.tgz#9fe1536a10a664a65266a1e3ccf85fd36302bc9c"
   integrity sha512-UIEXBNeYmKptWH6z8ZnqTeS8fV74zG0/eRU9VGkpzz+LIJNs8W/zM/L+7ctCkRrgbNnnR0xxw4bKOr0cW0N0Og==
+
+underscore@^1.8.3:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.1.tgz#06dce34a0e68a7babc29b365b8e74b8925203961"
+  integrity sha512-5/4etnCkd9c8gwgowi5/om/mYO5ajCaOgdzj/oW+0eQV9WxKBDZw5+ycmKmeaTXjInS/W0BzpGLo2xR2aBwZdg==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
