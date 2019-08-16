@@ -2,15 +2,15 @@ import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Text,
   StatusBar,
   KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
+  Text,
   ScrollView,
-  AsyncStorage,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import {showMessage} from 'react-native-flash-message';
 
 import styles from './styles';
@@ -34,6 +34,7 @@ export default function AddNote({navigation}) {
   const saveAsyncStorage = async note => {
     try {
       let notes = await AsyncStorage.getItem(stringsUtil.storage.listNotes);
+      // console.tron.log(`notes: ${JSON.stringify(notes)}`);
       if (notes !== null) {
         notes = JSON.parse(notes);
       } else {
@@ -41,7 +42,7 @@ export default function AddNote({navigation}) {
       }
 
       notes = [...notes, note];
-
+      // console.tron.log(`saveAsyncStorage: ${JSON.stringify(notes)}`);
       await AsyncStorage.setItem(
         stringsUtil.storage.listNotes,
         JSON.stringify(notes),
@@ -54,7 +55,7 @@ export default function AddNote({navigation}) {
   };
 
   const handleSave = async () => {
-    console.tron.log(`textInput: ${textInput}`);
+    // console.tron.log(`handleSave: ${textInput}`);
     if (textInput === '') {
       showMessage({
         message: 'Digite uma anotação para salvar',
@@ -75,11 +76,13 @@ export default function AddNote({navigation}) {
 
     await saveAsyncStorage(note);
 
-    navigation.navigate('Main');
+    navigation.navigate('Main', {
+      reload: true,
+    });
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
       <StatusBar barStyle="light-content" />
       <KeyboardAvoidingView style={styles.containerForm} behavior="padding">
         <TextInput
@@ -102,6 +105,12 @@ export default function AddNote({navigation}) {
           }}>
           <Text style={styles.buttonText}>Adicionar</Text>
         </TouchableOpacity>
+        {/* <Button
+          onPress={handleSave}
+          title="Adicionar"
+          color={colors.secundary}
+          accessibilityLabel="Adicione uma anotação"
+        /> */}
       </KeyboardAvoidingView>
     </ScrollView>
   );

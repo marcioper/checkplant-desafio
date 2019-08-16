@@ -25,11 +25,11 @@ const Location = {
       [
         {
           text: 'Pergunte depois',
-          onPress: () => console.tron.log('Ask me later pressed'),
+          onPress: () => console.log('Ask me later pressed'),
         },
         {
           text: 'Continuar não permitindo',
-          onPress: () => console.tron.log('Cancel Pressed'),
+          onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
         {
@@ -56,7 +56,7 @@ const Location = {
         },
       );
     } catch (err) {
-      console.tron.error(`An error occurred at requestPermissions -> ${err}`);
+      console.error(`An error occurred at requestPermissions -> ${err}`);
     }
   },
 
@@ -83,7 +83,7 @@ const Location = {
         }
       }
     } catch (err) {
-      console.tron.error(`An error occurred at checkPermissions -> ${err}`);
+      console.error(`An error occurred at checkPermissions -> ${err}`);
     }
   },
 };

@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
 
   containerForm: {
     flex: 1,
-    marginHorizontal: metrics.baseMargin + 5,
+    margin: metrics.baseMargin + 5,
     flexDirection: 'column',
     justifyContent: 'space-between',
     backgroundColor: colors.lighter,
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     color: colors.black,
     marginTop: metrics.baseMargin,
     marginBottom: metrics.baseMargin,
+    paddingHorizontal: metrics.baseMargin + 5,
   },
 
   button: {

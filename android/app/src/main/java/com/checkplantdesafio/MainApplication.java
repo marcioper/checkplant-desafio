@@ -7,6 +7,7 @@ import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.mapbox.rctmgl.RCTMGLPackage;
@@ -14,6 +15,7 @@ import com.reactnativecommunity.geolocation.GeolocationPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
       List<ReactPackage> packages = new PackageList(this).getPackages();
       // Packages that cannot be autolinked yet can be added manually here, for
       // example:
-      packages.add(new RCTMGLPackage());
+      packages.add(new RCTMGLPackage(), new GeolocationPackage(), new AsyncStoragePackage());
       return packages;
     }
 

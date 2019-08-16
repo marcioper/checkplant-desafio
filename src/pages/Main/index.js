@@ -1,19 +1,25 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
 
+import {useDispatch, useSelector} from 'react-redux';
 import {
   View,
   Text,
-  Alert,
   ScrollView,
   TouchableOpacity,
   Modal,
   SafeAreaView,
-  AsyncStorage,
 } from 'react-native';
 
+import NetInfo from '@react-native-community/netinfo';
 import {FloatingAction} from 'react-native-floating-action';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import AsyncStorage from '@react-native-community/async-storage';
+import {showMessage} from 'react-native-flash-message';
+import Spinner from 'react-native-loading-spinner-overlay';
+import moment from 'moment';
+import {Creators as NotesActions} from '~/store/ducks/notes';
+import 'moment/locale/pt-br';
 import Location from '~/util/location';
 
 import styles from './styles';
@@ -32,6 +38,15 @@ export default function Main({navigation}) {
   const [latitudeCurrent, setLatitudeCurrent] = useState(0);
   const [longitudeCurrent, setLongitudeCurrent] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
+  const [listSync, setListSync] = useState([]);
+  const [listNotSync, setListNotSync] = useState([]);
+  const [modalDate, setModalDate] = useState('');
+  const [modalText, setModalText] = useState('');
+  const notes = useSelector(state => state.notes);
+
+  const dispatch = useDispatch();
+
+  console.disableYellowBox = true;
 
   function getCurrentPositionInitial(coords) {
     const {latitude: lat, longitude: long} = coords;
@@ -41,14 +56,37 @@ export default function Main({navigation}) {
     // console.tron.log(`longitude: ${long}`);
   }
 
-  useEffect(() => {
-    Location.checkPermissions(getCurrentPositionInitial);
-
-    const listNotesJSON = AsyncStorage.getItem(stringsUtil.storage.listNotes);
+  const managerLists = useCallback(async () => {
+    let listNotesJSON = await AsyncStorage.getItem(
+      stringsUtil.storage.listNotes,
+    );
     if (listNotesJSON !== null) {
-      console.tron.log(`listNotesJSON: ${listNotesJSON}`);
+      listNotesJSON = JSON.parse(listNotesJSON);
+      // console.tron.log(`Main: ${JSON.stringify(listNotesJSON)}`);
+      const newListNotSync = listNotesJSON.filter(note => {
+        return note.sync === false;
+      });
+      setListNotSync(newListNotSync);
+      const newListSync = listNotesJSON.filter(note => {
+        return note.sync === true;
+      });
+      setListSync(newListSync);
+      // console.tron.log(`Main listNotSync: ${JSON.stringify(newListNotSync)}`);
+      // console.tron.log(`Main listSync: ${JSON.stringify(newListSync)}`);
     }
   }, []);
+
+  useEffect(() => {
+    const initial = async () => {
+      Location.checkPermissions(getCurrentPositionInitial);
+      // await AsyncStorage.clear();
+
+      await managerLists();
+
+      navigation.getParam('reload');
+    };
+    initial();
+  }, [managerLists, navigation]);
 
   const actions = [
     {
@@ -67,13 +105,46 @@ export default function Main({navigation}) {
     },
   ];
 
-  function syncData() {}
+  function syncData() {
+    NetInfo.isConnected.fetch().done(async isConnected => {
+      if (isConnected) {
+        dispatch(NotesActions.addNoteRequest());
+      } else {
+        showMessage({
+          message: 'Sem Internet, verifique a conexão e tente novamente!',
+          type: 'warning',
+          icon: 'warning',
+        });
+      }
+    });
+  }
+
+  useEffect(() => {
+    if (notes.success !== null && notes.success !== '') {
+      showMessage({
+        message: notes.success,
+        type: 'success',
+        icon: 'success',
+      });
+
+      managerLists();
+    }
+  }, [notes.success]);
 
   const handleAddNote = async () => {
     navigation.navigate('AddNote', {
       latParam: latitudeCurrent,
       longParam: longitudeCurrent,
     });
+  };
+
+  const handleDetailNote = async (index, sync) => {
+    let array = [];
+    if (sync) array = listSync;
+    else array = listNotSync;
+    setModalDate(array[index].date);
+    setModalText(array[index].description);
+    setModalVisible(true);
   };
 
   function handleRegionChange(event) {
@@ -88,62 +159,63 @@ export default function Main({navigation}) {
 
   const renderSyncs = () => {
     return (
-      <MapboxGL.PointAnnotation
-        key="1"
-        id="1"
-        coordinate={[-49.26536, -16.685291]}>
-        <TouchableOpacity
-          onPress={() => {
-            setModalVisible(true);
-          }}>
-          <View style={styles.annotationContainer}>
-            <View style={styles.annotationSyncFill} />
-          </View>
-        </TouchableOpacity>
-      </MapboxGL.PointAnnotation>
+      <>
+        {listSync.map((note, index) => (
+          <MapboxGL.PointAnnotation
+            key={String(note.id)}
+            id={String(note.id)}
+            coordinate={[note.longitude, note.latitude]}>
+            <TouchableOpacity
+              onPress={() => {
+                handleDetailNote(index, true);
+              }}>
+              <View style={styles.annotationContainer}>
+                <View style={styles.annotationSyncFill} />
+              </View>
+            </TouchableOpacity>
+          </MapboxGL.PointAnnotation>
+        ))}
+      </>
     );
   };
 
   const renderNoSyncs = () => {
     return (
       <>
-        <MapboxGL.PointAnnotation
-          key="2"
-          id="2"
-          coordinate={[-49.264502, -16.687963]}>
-          <View
-            onPressItem={() => Alert.alert('Modal open.')}
-            style={styles.annotationContainer}>
-            <View style={styles.annotationNoSyncFill} />
-          </View>
-          <MapboxGL.Callout title="Marcio House" />
-        </MapboxGL.PointAnnotation>
-        <MapboxGL.PointAnnotation
-          key="3"
-          id="3"
-          coordinate={[-49.256351, -16.680892]}>
-          <View style={styles.annotationContainer}>
-            <View style={styles.annotationNoSyncFill} />
-          </View>
-          <MapboxGL.Callout title="Marcio House" />
-        </MapboxGL.PointAnnotation>
+        {listNotSync.map((note, index) => (
+          <MapboxGL.PointAnnotation
+            key={String(note.id)}
+            id={String(note.id)}
+            coordinate={[note.longitude, note.latitude]}>
+            <TouchableOpacity
+              onPress={() => {
+                handleDetailNote(index, false);
+              }}>
+              <View style={styles.annotationContainer}>
+                <View style={styles.annotationNoSyncFill} />
+              </View>
+            </TouchableOpacity>
+          </MapboxGL.PointAnnotation>
+        ))}
       </>
     );
   };
 
   return (
     <>
+      <Spinner
+        visible={notes.loading}
+        textContent="Sincronização em andamento..."
+        textStyle={styles.spinnerTextStyle}
+      />
       <Modal animationType="slide" transparent={false} visible={modalVisible}>
         <SafeAreaView style={styles.modal}>
           <View style={styles.popup}>
-            <Text style={styles.date}>15/08/2019</Text>
+            <Text style={styles.date}>
+              {moment(modalDate).format('DD/MM/YYYY HH:mm:ss')}
+            </Text>
             <ScrollView>
-              <Text style={styles.note}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industrys standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of
-                type and scrambled it to make a type specimen book
-              </Text>
+              <Text style={styles.note}>{modalText}</Text>
             </ScrollView>
           </View>
           <TouchableOpacity
@@ -182,5 +254,6 @@ export default function Main({navigation}) {
 Main.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
+    getParam: PropTypes.func,
   }).isRequired,
 };
