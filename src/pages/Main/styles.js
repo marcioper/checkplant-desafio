@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 15,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.secundary,
     transform: [{scale: 0.8}],
   },
   annotationNoSyncFill: {

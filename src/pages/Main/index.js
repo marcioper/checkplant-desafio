@@ -9,8 +9,8 @@ import {
   TouchableOpacity,
   Modal,
   SafeAreaView,
+  AsyncStorage,
 } from 'react-native';
-// import Modal from 'react-native-modal';
 
 import {FloatingAction} from 'react-native-floating-action';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
@@ -43,6 +43,11 @@ export default function Main({navigation}) {
 
   useEffect(() => {
     Location.checkPermissions(getCurrentPositionInitial);
+
+    const listNotesJSON = AsyncStorage.getItem(stringsUtil.storage.listNotes);
+    if (listNotesJSON !== null) {
+      console.tron.log(`listNotesJSON: ${listNotesJSON}`);
+    }
   }, []);
 
   const actions = [

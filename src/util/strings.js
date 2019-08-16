@@ -6,6 +6,7 @@ export default {
     mapboxtoken: env.MAPBOX_ACCESS_TOKEN,
   },
   storage: {
+    listNotes: '@CheckplantApp:listNotes',
     listSync: '@CheckplantApp:listSync',
     listNoSync: '@CheckplantApp:listNoSync',
   },
