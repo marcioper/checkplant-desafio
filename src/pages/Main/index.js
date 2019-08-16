@@ -5,7 +5,6 @@ import {
   View,
   Text,
   Alert,
-  Button,
   ScrollView,
   TouchableOpacity,
   Modal,
@@ -28,20 +27,22 @@ import stringsUtil from '~/util/strings';
 MapboxGL.setAccessToken(stringsUtil.keys.mapboxtoken);
 
 export default function Main({navigation}) {
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [latitudeInitial, setLatitudeInitial] = useState(0);
+  const [longitudeInitial, setLongitudeInitial] = useState(0);
+  const [latitudeCurrent, setLatitudeCurrent] = useState(0);
+  const [longitudeCurrent, setLongitudeCurrent] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
 
-  function getCurrentPosition(coords) {
+  function getCurrentPositionInitial(coords) {
     const {latitude: lat, longitude: long} = coords;
-    setLatitude(lat);
-    setLongitude(long);
-    console.tron.log(`latitude: ${lat}`);
-    console.tron.log(`longitude: ${long}`);
+    setLatitudeInitial(lat);
+    setLongitudeInitial(long);
+    // console.tron.log(`latitude: ${lat}`);
+    // console.tron.log(`longitude: ${long}`);
   }
 
   useEffect(() => {
-    Location.checkPermissions(getCurrentPosition);
+    Location.checkPermissions(getCurrentPositionInitial);
   }, []);
 
   const actions = [
@@ -63,8 +64,21 @@ export default function Main({navigation}) {
 
   function syncData() {}
 
-  function handleRegionChange(region) {
-    console.tron.log(`Region: ${region}`);
+  const handleAddNote = async () => {
+    navigation.navigate('AddNote', {
+      latParam: latitudeCurrent,
+      longParam: longitudeCurrent,
+    });
+  };
+
+  function handleRegionChange(event) {
+    const {geometry} = event;
+    const lat = geometry.coordinates[1];
+    const long = geometry.coordinates[0];
+    setLatitudeCurrent(lat);
+    setLongitudeCurrent(long);
+    // console.tron.log(`latitud: ${lat}`);
+    // console.tron.log(`longitud: ${long}`);
   }
 
   const renderSyncs = () => {
@@ -137,12 +151,12 @@ export default function Main({navigation}) {
         </SafeAreaView>
       </Modal>
       <MapboxGL.MapView
-        centerCoordinate={[longitude, latitude]}
+        centerCoordinate={[longitudeInitial, latitudeInitial]}
         style={styles.container}
         showUserLocation
         zoomLevel={14}
-        onRegionDidChange={region => {
-          handleRegionChange(region);
+        onRegionDidChange={event => {
+          handleRegionChange(event);
         }}
         styleURL={MapboxGL.StyleURL.Light}>
         {renderSyncs()}
@@ -152,7 +166,7 @@ export default function Main({navigation}) {
         actions={actions}
         color={colors.primary}
         onPressItem={name => {
-          if (name === 'bt_edit') navigation.navigate('AddNote');
+          if (name === 'bt_edit') handleAddNote();
           else syncData();
         }}
       />

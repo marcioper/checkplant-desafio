@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
 
 import {
   Text,
-  SafeAreaView,
   StatusBar,
   KeyboardAvoidingView,
   TextInput,
@@ -12,8 +12,15 @@ import {
 
 import styles from './styles';
 
-export default function AddNote() {
+export default function AddNote({navigation}) {
   const [textInput, setTextInput] = useState('');
+
+  useEffect(() => {
+    const latParam = navigation.getParam('latParam');
+    const longParam = navigation.getParam('longParam');
+    console.tron.log(`AddNote latitude: ${latParam}`);
+    console.tron.log(`AddNote longitude: ${longParam}`);
+  });
 
   return (
     <ScrollView style={styles.container}>
@@ -39,3 +46,9 @@ export default function AddNote() {
     </ScrollView>
   );
 }
+
+AddNote.propTypes = {
+  navigation: PropTypes.shape({
+    getParam: PropTypes.func,
+  }).isRequired,
+};
