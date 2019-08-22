@@ -1,5 +1,7 @@
 # Desafio Checkplant
 
+<p align="center"><img src="https://github.com/marcioper/checkplant-desafio/blob/master/screenshot-map.png" height="600" alt="Screenshot"/></p>
+
 Criar um app utilizando a plataforma React Native com as seguintes características:
 
 A tela principal do app, será um mapa com alguns pinos, e mais dois botões: Adicionar e
